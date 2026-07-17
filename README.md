@@ -66,7 +66,7 @@ ai-mind-finger-drawing
 ```text
 https://mariarlee.github.io/ai-mind-finger-drawing/
 ```
-
+Deployment refresh: 2026-07-17
 ## 版本定位
 
 V1.0 採用透明、可解釋的本機規則分析與程序式藝術生成，不會宣稱心理診斷或醫療效能。後續版本可加入每日紀錄、13 級情緒花卡連動、腦波音樂連動或更多藝術模式，但新增資料保存功能前應先重新檢視隱私設計。
