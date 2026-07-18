@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#f6efff">
+  <meta name="description" content="AI-Mind Care: Figure Drawing 腦心畫 V2.3：自由創作由使用者決定停止時間，並改善手機畫布捲動與作品儲存。">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <title>AI-Mind Care: Figure Drawing｜腦心畫</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">AI-Mind Care</div>
+    <div class="top-actions">
+      <div class="language-switch" role="group" aria-label="Language 語言">
+        <button class="language-button active" id="langZh" type="button">中文</button>
+        <button class="language-button" id="langEn" type="button">EN</button>
+      </div>
+      <a class="home-link" href="https://www.hyloveclub.com" rel="noopener noreferrer" target="_blank" data-i18n="home">首頁</a>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow" data-i18n="eyebrow">5／10 秒心境靈感藝術</p>
+      <h1 id="page-title">AI-Mind Care: Figure Drawing <span data-i18n="subtitle">腦心畫</span></h1>
+      <p class="intro" data-i18n="intro">5／10 秒分析後可繼續畫畫，並可儲存原始手繪圖與心境靈感藝術。</p>
+    </section>
+
+    <section class="experience-card">
+      <aside class="control-column" aria-label="Drawing controls">
+        <div class="control-panel-heading">
+          <div>
+            <p class="panel-kicker" data-i18n="controlKicker">創作設定</p>
+            <h2 data-i18n="controlTitle">跟著直覺，開始一筆</h2>
+          </div>
+          <span class="version-badge">V2.3</span>
+        </div>
+
+        <div class="status-row">
+          <div class="timer-box" aria-live="polite">
+            <span class="status-label" data-i18n="timeLeft">剩餘時間</span>
+            <strong id="timer">5.0</strong>
+            <span class="status-unit" data-i18n="seconds">秒</span>
+          </div>
+          <div class="status-message" id="statusMessage" aria-live="polite">按「開始畫 5 秒」，再在畫布上自由畫。</div>
+        </div>
+
+        <div class="setup-section">
+          <div class="setup-section-heading">
+            <span class="step-number">1</span>
+            <span data-i18n="durationLabel">繪畫時間</span>
+          </div>
+          <div class="duration-control" role="radiogroup" aria-label="Drawing duration 繪畫時間">
+            <button class="duration-button active" id="duration5" type="button" data-duration="5">5 <span data-i18n="secondsShort">秒</span></button>
+            <button class="duration-button" id="duration10" type="button" data-duration="10">10 <span data-i18n="secondsShort">秒</span></button>
+          </div>
+        </div>
+
+        <div class="setup-section">
+          <div class="setup-section-heading">
+            <span class="step-number">2</span>
+            <span data-i18n="chooseColor">選擇今日直覺色彩</span>
+          </div>
+          <div class="palette" id="palette" role="radiogroup" aria-label="Drawing color">
+            <button class="color-dot selected" type="button" data-color="#7b61ff" aria-label="紫色"></button>
+            <button class="color-dot" type="button" data-color="#2f80ed" aria-label="藍色"></button>
+            <button class="color-dot" type="button" data-color="#18a999" aria-label="綠色"></button>
+            <button class="color-dot" type="button" data-color="#f2c94c" aria-label="黃色"></button>
+            <button class="color-dot" type="button" data-color="#f2994a" aria-label="橙色"></button>
+            <button class="color-dot" type="button" data-color="#eb5757" aria-label="紅色"></button>
+            <button class="color-dot" type="button" data-color="#e56bb3" aria-label="粉紅色"></button>
+            <button class="color-dot" type="button" data-color="#30343f" aria-label="深灰色"></button>
+          </div>
+        </div>
+
+        <div class="setup-section action-section">
+          <div class="setup-section-heading">
+            <span class="step-number">3</span>
+            <span data-i18n="beginCreate">開始創作</span>
+          </div>
+          <div class="controls controls-before-canvas">
+            <button class="primary-button" id="startButton" type="button">開始畫 5 秒</button>
+            <button class="secondary-button" id="clearButton" type="button" data-i18n="startOver">重新開始</button>
+          </div>
+        </div>
+
+        <p class="support-note" id="pressureNote">觸控壓力：等待偵測裝置能力</p>
+      </aside>
+
+      <div class="canvas-column">
+        <div class="canvas-toolbar">
+          <div>
+            <span class="canvas-toolbar-kicker" data-i18n="canvasKicker">創作畫布</span>
+            <strong data-i18n="canvasTitle">用手指或滑鼠自由畫畫</strong>
+          </div>
+          <span class="privacy-chip">🔒 <span data-i18n="localOnly">僅在本機</span></span>
+        </div>
+        <div class="canvas-frame" id="canvasFrame">
+          <canvas id="drawingCanvas" width="900" height="900" aria-label="Finger drawing canvas"></canvas>
+          <div class="canvas-overlay" id="canvasOverlay">
+            <div class="finger-icon" aria-hidden="true">☝</div>
+            <strong data-i18n="ready">準備好了嗎？</strong>
+            <span data-i18n="overlayHint">按上方開始鍵後，自由畫 5 秒</span>
+          </div>
+        </div>
+        <div class="after-timer-card post-timer-bar hidden" id="afterTimerCard">
+          <div class="post-timer-copy">
+            <strong data-i18n="afterTimerTitle">分析時間已完成</strong>
+            <span data-i18n="afterTimerNote">您可以繼續畫畫；由您決定何時停止，完成時按「分析作品」。</span>
+          </div>
+          <div class="post-timer-actions">
+            <button class="primary-button" id="finishButton" type="button" data-i18n="analyzeArtwork">分析作品</button>
+            <button class="secondary-button" id="restartButton" type="button" data-i18n="startOver">重新開始</button>
+            <button class="tertiary-button" id="downloadDrawingButton" type="button" data-i18n="saveDrawing">儲存原始畫作</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="result-card hidden" id="resultCard" aria-labelledby="resultTitle">
+      <div class="result-layout">
+        <div class="result-visual-column">
+          <div class="result-heading compact-heading">
+            <p class="eyebrow" data-i18n="resultEyebrow">今日心境靈感藝術</p>
+            <h2 id="resultTitle" data-i18n="resultTitle">你的今日心境靈感藝術</h2>
+          </div>
+          <div class="art-frame">
+            <canvas id="artCanvas" width="1200" height="1200" aria-label="Generated mood artwork"></canvas>
+          </div>
+        </div>
+
+        <div class="result-info-column">
+          <div class="mood-summary">
+            <div>
+              <span class="summary-label" data-i18n="todayMood">藝術靈感</span>
+              <h3 id="moodName">流光安定</h3>
+            </div>
+            <p id="moodMessage">你正在慢慢回到自己的節奏。</p>
+          </div>
+
+          <div class="metrics">
+            <div class="metric"><span data-i18n="speed">線條速度</span><strong id="speedMetric">—</strong></div>
+            <div class="metric"><span data-i18n="pressure">觸控力度</span><strong id="pressureMetric">—</strong></div>
+            <div class="metric"><span data-i18n="curve">曲線流動</span><strong id="curveMetric">—</strong></div>
+            <div class="metric"><span data-i18n="energy">畫面能量</span><strong id="energyMetric">—</strong></div>
+          </div>
+
+          <div class="result-actions">
+            <button class="primary-button" id="downloadArtButton" type="button" data-i18n="saveArt">儲存作品</button>
+            <button class="tertiary-button" id="downloadDrawingFromResultButton" type="button" data-i18n="saveDrawing">儲存原始畫作</button>
+            <button class="secondary-button" id="drawAgainButton" type="button" data-i18n="drawAgain">再畫一次</button>
+          </div>
+          <p class="save-guide" id="saveNotice" data-i18n="saveGuide">手機：按「儲存作品」後顯示圖片，長按圖片選擇「儲存到照片」；電腦：圖片會下載到 Downloads。</p>
+          <p class="interpretation-note" data-i18n="disclaimer">此作品依線條特徵生成，僅供創意表達與自我覺察，不是心理、醫療或健康評估或診斷。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-it-works" aria-labelledby="howTitle">
+      <h2 id="howTitle" data-i18n="howTitle">腦心畫如何運作？</h2>
+      <div class="steps">
+        <article><span>1</span><h3 data-i18n="step1Title">選擇 5 或 10 秒</h3><p data-i18n="step1Text">5 秒適合快速體驗；10 秒可留下更多線條與細節。</p></article>
+        <article><span>2</span><h3 data-i18n="step2Title">先分析，再創作</h3><p data-i18n="step2Text">前面的 5／10 秒用來記錄分析特徵；之後可一直畫，由您決定何時按「分析作品」。</p></article>
+        <article><span>3</span><h3 data-i18n="step3Title">儲存兩種作品</h3><p data-i18n="step3Text">手機可長按作品圖片儲存到照片；電腦則下載 PNG 圖片。</p></article>
+      </div>
+      <p class="duration-explanation" data-i18n="durationExplanation">5 秒與 10 秒皆為創意互動選項，不代表經科學驗證的心理測量時間；作品僅供創意表達與自我覺察。</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>🔒 <strong data-i18n="privacyTitle">本機隱私模式</strong></p>
+    <p data-i18n="privacyText">繪圖與分析只在您的瀏覽器中進行，不會自動上傳或由本網站保存。您可自行將作品儲存到手機或電腦。</p>
+    <p class="copyright">© Hylove Business Inc.</p>
+  </footer>
+
+
+  <div class="save-modal hidden" id="saveModal" role="dialog" aria-modal="true" aria-labelledby="saveModalTitle">
+    <div class="save-modal-backdrop" id="saveModalBackdrop"></div>
+    <div class="save-modal-panel">
+      <button class="save-modal-close" id="saveModalClose" type="button" aria-label="Close">×</button>
+      <h2 id="saveModalTitle" data-i18n="savePreviewTitle">儲存到手機照片</h2>
+      <p data-i18n="savePreviewInstruction">請長按下方圖片，再選擇「儲存到照片」或「下載圖片」。不同手機的選項名稱可能略有不同。</p>
+      <div class="save-preview-frame">
+        <img id="savePreviewImage" alt="Artwork preview for saving">
+      </div>
+      <div class="save-modal-actions">
+        <button class="secondary-button" id="downloadPreviewButton" type="button" data-i18n="downloadFile">下載 PNG 檔案</button>
+        <button class="primary-button" id="closePreviewButton" type="button" data-i18n="done">完成</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
