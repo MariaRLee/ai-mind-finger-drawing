@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#f6efff">
+  <meta name="description" content="AI-Mind Care: Figure Drawing 腦心畫 V2.6.1 IP Protection Edition：加入完整雙語著作權與使用條款，並保留 Apple、Android、LINE 相容性提醒與本機隱私模式。">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <title>AI-Mind Care: Figure Drawing｜腦心畫</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">AI-Mind Care</div>
+    <div class="top-actions">
+      <button class="guide-button" id="guideButton" type="button" aria-haspopup="dialog" aria-controls="guideModal">
+        <span class="guide-long" data-i18n="userGuide">使用指南｜User Guide</span>
+        <span class="guide-short" data-i18n="userGuideShort">指南｜Guide</span>
+      </button>
+      <div class="language-switch" role="group" aria-label="Language 語言">
+        <button class="language-button active" id="langZh" type="button">中文</button>
+        <button class="language-button" id="langEn" type="button">EN</button>
+      </div>
+      <a class="home-link" href="https://www.hyloveclub.com" rel="noopener noreferrer" target="_blank" data-i18n="home">首頁</a>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow" data-i18n="eyebrow">5／10 秒心境靈感藝術</p>
+      <h1 id="page-title">AI-Mind Care: Figure Drawing <span data-i18n="subtitle">腦心畫</span></h1>
+      <p class="intro" data-i18n="intro">5 秒主創作＋5 秒完成作品，或 10 秒主創作＋10 秒完成作品；時間結束後自動分析。</p>
+    </section>
+
+    <aside class="compatibility-notice hidden" id="compatibilityNotice" role="status" aria-live="polite">
+      <span class="compatibility-icon" aria-hidden="true">ⓘ</span>
+      <span data-i18n="lineBrowserNotice">您目前可能使用 LINE 內建瀏覽器；若無法正常繪圖或儲存，請點右上角選單，改用 Safari 或 Chrome 開啟。</span>
+    </aside>
+
+    <section class="experience-card">
+      <aside class="control-column" aria-label="Drawing controls">
+        <div class="control-panel-heading">
+          <div>
+            <p class="panel-kicker" data-i18n="controlKicker">創作設定</p>
+            <h2 data-i18n="controlTitle">跟著直覺，開始一筆</h2>
+          </div>
+          <span class="version-badge">V2.6.1</span>
+        </div>
+
+        <div class="status-row">
+          <div class="timer-box" aria-live="polite">
+            <span class="status-label" data-i18n="timeLeft">剩餘時間</span>
+            <strong id="timer">5 / 10</strong>
+            <span class="status-unit" data-i18n="seconds">秒</span>
+          </div>
+          <div class="status-message" id="statusMessage" aria-live="polite">請選擇「開始 5 秒」或「開始 10 秒」。</div>
+        </div>
+
+        <div class="setup-section">
+          <div class="setup-section-heading">
+            <span class="step-number">1</span>
+            <span data-i18n="chooseColor">選擇今日直覺色彩</span>
+          </div>
+          <div class="palette" id="palette" role="radiogroup" aria-label="Drawing color">
+            <button class="color-dot selected" type="button" data-color="#7b61ff" aria-label="紫色"></button>
+            <button class="color-dot" type="button" data-color="#2f80ed" aria-label="藍色"></button>
+            <button class="color-dot" type="button" data-color="#18a999" aria-label="綠色"></button>
+            <button class="color-dot" type="button" data-color="#f2c94c" aria-label="黃色"></button>
+            <button class="color-dot" type="button" data-color="#f2994a" aria-label="橙色"></button>
+            <button class="color-dot" type="button" data-color="#eb5757" aria-label="紅色"></button>
+            <button class="color-dot" type="button" data-color="#e56bb3" aria-label="粉紅色"></button>
+            <button class="color-dot" type="button" data-color="#30343f" aria-label="深灰色"></button>
+          </div>
+        </div>
+
+        <div class="setup-section action-section">
+          <div class="setup-section-heading">
+            <span class="step-number">2</span>
+            <span data-i18n="beginCreate">開始創作</span>
+          </div>
+          <div class="controls start-mode-actions" id="startModeActions">
+            <button class="primary-button" id="start5Button" type="button" data-i18n="start5">開始 5 秒</button>
+            <button class="primary-button" id="start10Button" type="button" data-i18n="start10">開始 10 秒</button>
+          </div>
+          <div class="controls during-actions hidden" id="duringActions">
+            <button class="primary-button" id="finishNowButton" type="button" data-i18n="finishNow">提早完成</button>
+            <button class="secondary-button" id="clearButton" type="button" data-i18n="startOver">重新開始</button>
+          </div>
+        </div>
+
+        <p class="support-note" id="pressureNote">觸控壓力：等待偵測裝置能力</p>
+      </aside>
+
+      <div class="canvas-column">
+        <div class="canvas-toolbar">
+          <div>
+            <span class="canvas-toolbar-kicker" data-i18n="canvasKicker">創作畫布</span>
+            <strong data-i18n="canvasTitle">用手指或滑鼠自由畫畫</strong>
+          </div>
+          <span class="privacy-chip">🔒 <span data-i18n="localOnly">僅在本機</span></span>
+        </div>
+        <div class="canvas-frame" id="canvasFrame">
+          <canvas id="drawingCanvas" width="900" height="900" aria-label="Finger drawing canvas"></canvas>
+          <div class="canvas-overlay" id="canvasOverlay">
+            <div class="finger-icon" aria-hidden="true">☝</div>
+            <strong data-i18n="ready">準備好了嗎？</strong>
+            <span data-i18n="overlayHint">先選擇時間，再觸碰畫布開始</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="result-card hidden" id="resultCard" aria-labelledby="resultTitle">
+      <div class="result-layout">
+        <div class="result-visual-column">
+          <div class="result-heading compact-heading">
+            <p class="eyebrow" data-i18n="resultEyebrow">今日心境靈感藝術</p>
+            <h2 id="resultTitle" data-i18n="resultTitle">你的今日心境靈感藝術</h2>
+          </div>
+          <div class="art-frame">
+            <canvas id="artCanvas" width="1200" height="1200" aria-label="Generated mood artwork"></canvas>
+          </div>
+        </div>
+
+        <div class="result-info-column">
+          <div class="mood-summary">
+            <div>
+              <span class="summary-label" data-i18n="todayMood">藝術靈感</span>
+              <h3 id="moodName">流光安定</h3>
+            </div>
+            <p id="moodMessage">你正在慢慢回到自己的節奏。</p>
+          </div>
+
+          <div class="metrics">
+            <div class="metric"><span data-i18n="speed">線條速度</span><strong id="speedMetric">—</strong></div>
+            <div class="metric"><span data-i18n="pressure">觸控力度</span><strong id="pressureMetric">—</strong></div>
+            <div class="metric"><span data-i18n="curve">曲線流動</span><strong id="curveMetric">—</strong></div>
+            <div class="metric"><span data-i18n="energy">畫面能量</span><strong id="energyMetric">—</strong></div>
+          </div>
+
+          <div class="result-actions">
+            <button class="primary-button" id="downloadArtButton" type="button" data-i18n="saveAIMoodResultCard">儲存 AI 心境成果卡</button>
+            <button class="tertiary-button" id="downloadDrawingFromResultButton" type="button" data-i18n="saveOriginalDrawing">儲存原始手繪圖</button>
+            <button class="secondary-button" id="drawAgainButton" type="button" data-i18n="drawAgain">再畫一次</button>
+          </div>
+          <p class="save-guide" id="saveNotice" data-i18n="saveGuide">AI 心境成果卡會包含圖像、藝術靈感、四項指標與提醒文字；手機可長按圖片儲存到照片。</p>
+          <p class="interpretation-note" data-i18n="disclaimer">此作品依線條特徵生成，僅供創意表達與自我覺察，不是心理、醫療或健康評估或診斷。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-it-works" aria-labelledby="howTitle">
+      <h2 id="howTitle" data-i18n="howTitle">腦心畫如何運作？</h2>
+      <div class="steps">
+        <article><span>1</span><h3 data-i18n="step1Title">選擇 5 秒或 10 秒</h3><p data-i18n="step1Text">先選擇主創作時間：5 秒快速模式，或 10 秒細緻模式。</p></article>
+        <article><span>2</span><h3 data-i18n="step2Title">同樣秒數完成作品</h3><p data-i18n="step2Text">5 秒模式再提供 5 秒；10 秒模式再提供 10 秒。您也可隨時按「提早完成」。</p></article>
+        <article><span>3</span><h3 data-i18n="step3Title">自動分析並可儲存兩種作品</h3><p data-i18n="step3Text">時間結束後會自動分析，並可儲存原始手繪圖與 AI 心境藝術。</p></article>
+      </div>
+      <p class="duration-explanation" data-i18n="durationExplanation">5 秒與 10 秒皆為創意互動選項，不代表經科學驗證的心理測量時間；作品僅供創意表達與自我覺察。</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>🔒 <strong data-i18n="privacyTitle">本機隱私模式</strong></p>
+    <p data-i18n="privacyText">繪圖與分析只在您的瀏覽器中進行，不會自動上傳或由本網站保存。您可自行將作品儲存到手機或電腦。</p>
+    <p class="copyright copyright-line">
+      <span data-i18n="copyrightBrand">© 2026 Hylove Business Inc / AI-Mind Care</span>
+      <span aria-hidden="true"> ・ </span>
+      <button class="copyright-link" id="copyrightButton" type="button" aria-haspopup="dialog" aria-controls="copyrightModal" data-i18n="copyrightTerms">完整著作權與使用條款</button>
+    </p>
+  </footer>
+
+  <div class="guide-modal hidden" id="guideModal" role="dialog" aria-modal="true" aria-labelledby="guideModalTitle">
+    <div class="guide-modal-backdrop" id="guideModalBackdrop"></div>
+    <div class="guide-modal-panel">
+      <button class="guide-modal-close" id="guideModalClose" type="button" aria-label="Close">×</button>
+      <p class="panel-kicker" data-i18n="guideKicker">QUICK START</p>
+      <h2 id="guideModalTitle" data-i18n="guideTitle">使用指南｜User Guide</h2>
+      <p class="guide-intro" data-i18n="guideIntro">不用會畫畫，也沒有標準答案；跟著直覺完成幾筆線條即可。</p>
+
+      <ol class="guide-steps-list">
+        <li>
+          <span>1</span>
+          <div><strong data-i18n="guideStep1Title">選擇直覺色彩</strong><p data-i18n="guideStep1Text">點選此刻最有感覺的顏色。</p></div>
+        </li>
+        <li>
+          <span>2</span>
+          <div><strong data-i18n="guideStep2Title">選擇創作模式</strong><p data-i18n="guideStep2Text">5 秒模式為 5 秒主創作＋5 秒完成；10 秒模式為 10 秒主創作＋10 秒完成。</p></div>
+        </li>
+        <li>
+          <span>3</span>
+          <div><strong data-i18n="guideStep3Title">觸碰畫布開始</strong><p data-i18n="guideStep3Text">按開始後，第一筆落在畫布時才正式倒數；用手指或滑鼠自由畫畫。</p></div>
+        </li>
+        <li>
+          <span>4</span>
+          <div><strong data-i18n="guideStep4Title">完成與分析</strong><p data-i18n="guideStep4Text">倒數結束後自動分析；也可隨時按「提早完成」或「重新開始」。</p></div>
+        </li>
+        <li>
+          <span>5</span>
+          <div><strong data-i18n="guideStep5Title">儲存兩種作品</strong><p data-i18n="guideStep5Text">可儲存原始手繪圖，或包含圖像、文字、指標與時間的 AI 心境成果卡。</p></div>
+        </li>
+      </ol>
+
+      <div class="device-guide-grid" aria-label="Device compatibility guidance">
+        <article>
+          <strong>Apple</strong>
+          <p data-i18n="appleGuide">iPhone／iPad 建議使用 Safari。儲存時請長按作品圖片，再選擇「儲存到照片」。</p>
+        </article>
+        <article>
+          <strong>Android</strong>
+          <p data-i18n="androidGuide">Android 建議使用 Google Chrome。儲存時可長按圖片或下載 PNG。</p>
+        </article>
+        <article>
+          <strong>LINE</strong>
+          <p data-i18n="lineGuide">若 LINE 內建瀏覽器無法正常繪圖或儲存，請點右上角選單，改用 Safari 或 Chrome 開啟。</p>
+        </article>
+      </div>
+
+      <p class="guide-privacy">🔒 <span data-i18n="guidePrivacy">所有繪圖與分析只在瀏覽器本機進行，不會自動上傳或保存。</span></p>
+      <button class="primary-button guide-done-button" id="guideDoneButton" type="button" data-i18n="guideDone">開始體驗</button>
+    </div>
+  </div>
+
+
+
+  <div class="guide-modal hidden" id="copyrightModal" role="dialog" aria-modal="true" aria-labelledby="copyrightModalTitle">
+    <div class="guide-modal-backdrop" id="copyrightModalBackdrop"></div>
+    <div class="guide-modal-panel copyright-modal-panel">
+      <button class="guide-modal-close" id="copyrightModalClose" type="button" aria-label="Close">×</button>
+      <p class="panel-kicker" data-i18n="copyrightKicker">IP PROTECTION</p>
+      <h2 id="copyrightModalTitle" data-i18n="copyrightModalTitle">完整著作權與使用條款</h2>
+      <p class="copyright-updated" data-i18n="copyrightEffectiveDate">生效版本：V2.6.1｜© 2026 Hylove Business Inc / AI-Mind Care</p>
+
+      <div class="copyright-sections">
+        <section>
+          <h3 data-i18n="copyrightSection1Title">一、著作權與智慧財產權</h3>
+          <p data-i18n="copyrightSection1Text">本網站之程式碼、互動流程、介面設計、文字內容、視覺呈現、分析邏輯、成果卡版型，以及 AI-Mind Care 與腦心畫相關名稱與識別，均由 Hylove Business Inc. 擁有、依法使用或受相關智慧財產權保護。</p>
+        </section>
+        <section>
+          <h3 data-i18n="copyrightSection2Title">二、允許的使用方式</h3>
+          <p data-i18n="copyrightSection2Text">使用者可為個人、教育及非商業用途操作本網站，並可儲存、展示或分享自己完成的原始手繪圖與 AI 心境成果卡。公開分享時，請保留成果卡上既有之品牌與著作權標示。</p>
+        </section>
+        <section>
+          <h3 data-i18n="copyrightSection3Title">三、使用者創作與隱私</h3>
+          <p data-i18n="copyrightSection3Text">使用者保有其自行繪製之原始手繪內容。本網站不會自動上傳或保存作品；繪圖、分析與成果產生均在使用者瀏覽器本機進行。AI 心境成果僅供創意表達與自我覺察。</p>
+        </section>
+        <section>
+          <h3 data-i18n="copyrightSection4Title">四、禁止事項</h3>
+          <p data-i18n="copyrightSection4Text">未經 Hylove Business Inc. 事前書面同意，不得複製或重製網站程式碼與整體設計、修改後另行發布、移除著作權標示、反向工程、出售、出租、轉授權、建立具實質相同功能之商業服務，或誤導他人認為本網站及其內容由其他個人或機構所有。</p>
+        </section>
+        <section>
+          <h3 data-i18n="copyrightSection5Title">五、使用限制與免責聲明</h3>
+          <p data-i18n="copyrightSection5Text">本服務依現況提供，不同裝置與瀏覽器的操作或儲存方式可能不同。分析結果不是心理、醫療或健康評估、診斷或治療建議，亦不得用於人事、教育、保險或其他自動化決策。</p>
+        </section>
+        <section>
+          <h3 data-i18n="copyrightSection6Title">六、商業使用與授權</h3>
+          <p data-i18n="copyrightSection6Text">任何商業展示、系統整合、複製部署、品牌合作、授權或衍生產品開發，均須事先取得 Hylove Business Inc. 的書面許可。</p>
+        </section>
+      </div>
+
+      <p class="copyright-contact" data-i18n="copyrightContact">商業授權、合作或書面許可，請透過 Hylove Business Inc. 官方網站聯繫。</p>
+      <button class="primary-button guide-done-button" id="copyrightDoneButton" type="button" data-i18n="copyrightDone">我已了解</button>
+    </div>
+  </div>
+
+  <div class="save-modal hidden" id="saveModal" role="dialog" aria-modal="true" aria-labelledby="saveModalTitle">
+    <div class="save-modal-backdrop" id="saveModalBackdrop"></div>
+    <div class="save-modal-panel">
+      <button class="save-modal-close" id="saveModalClose" type="button" aria-label="Close">×</button>
+      <h2 id="saveModalTitle" data-i18n="savePreviewTitle">儲存到手機照片</h2>
+      <p data-i18n="savePreviewInstruction">請長按下方圖片，再選擇「儲存到照片」或「下載圖片」。不同手機的選項名稱可能略有不同。</p>
+      <div class="save-preview-frame">
+        <img id="savePreviewImage" alt="Artwork preview for saving">
+      </div>
+      <div class="save-modal-actions">
+        <button class="secondary-button" id="downloadPreviewButton" type="button" data-i18n="downloadFile">下載 PNG 檔案</button>
+        <button class="primary-button" id="closePreviewButton" type="button" data-i18n="done">完成</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
